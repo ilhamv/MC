@@ -52,6 +52,9 @@ int main( int argc, char* argv[] )
 	double k = 1.0; // Current k
 	double k_tally; // Tallying next k
 
+	// RN seed stride for fission bank sampling
+	const ull fbank_stride = 1 + (particles-1)/152917;
+
 	//===========================================================================
 	// LOOP 1: Generation
 	//===========================================================================
@@ -66,7 +69,7 @@ int main( int argc, char* argv[] )
 	
 		for(ull ihist = 0; ihist < particles; ihist++){
 			// Initialize RN
-			ull particle_number = ihist * igen + ihist;
+			ull particle_number = particles * igen + ihist;
 			RN_init_particle(&particle_number);
 
 			// Get particle from source bank and put into secondary bank
@@ -232,6 +235,8 @@ int main( int argc, char* argv[] )
 		std::cout<<igen<<"  "<<kgen[igen]<<"\n";
 
 		// Sample next source bank from fission bank
+		ull sampling_seed = fbank_stride * igen;
+		RN_init_particle(&sampling_seed);
 		for(ull i = 0; i < particles; i++){
 			ull idx = std::floor(Urand() * fission_bank.size());
 			source_bank[i] = fission_bank[idx];
