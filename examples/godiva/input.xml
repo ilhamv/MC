@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<simulation particles="100000" batches="120" inactives="20"/>
+
+<materials>
+  <material name="fuel" id="1" density="18.7398">
+    <nuclide name="U235" ao="0.937695"/>
+    <nuclide name="U238" ao="0.052053"/>
+    <nuclide name="U234" ao="0.010252"/>
+  </material>
+</materials>
+
+<geometry>
+  <surface name="the_ball" id="1" type="sphere" coeffs="0.0 0.0 0.0 8.7407" 
+	         boundary="vacuum"/>
+  <cell name="godiva" id="1" region="-1" material="fuel"/>
+</geometry>
+
+<source type="delta" params="0.0 0.0 0.0 1.0 0.0 0.0 14100000"/>
+
+<xs directory="/home/ilhamv/MC/xs_library/"/>
