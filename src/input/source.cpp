@@ -1,3 +1,5 @@
+#include <mpi.h>
+
 #include "input.h"
 #include "error.h"
 
@@ -28,7 +30,25 @@ void setup_source(const pugi::xml_node input_source,
 		const std::shared_ptr<Cell> cell = search_cell(pos, cells);
 		Particle P(pos, dir, E, cell);
 
-		source_bank.resize(particles,P);
+		//===========================================================================
+		// Local source
+		//===========================================================================
+		
+		// Get # of processes and id
+		int np; MPI_Comm_size(MPI_COMM_WORLD, &np);
+		int id; MPI_Comm_rank(MPI_COMM_WORLD, &id);
+
+		// Local particles buffer
+		ull particles_local = 1 + (particles-1) / np;
+
+		// Process with excessive source_bank size
+		ull excess = particles % np;
+		if(excess > 0){
+			const bool excessive_bank = id >= excess;
+			if(excessive_bank) particles_local--;
+		}
+
+		source_bank.resize(particles_local,P);
 	}
 	else error("Source type \""+type+"\" is not supported.");
 }

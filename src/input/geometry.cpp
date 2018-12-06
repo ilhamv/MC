@@ -84,8 +84,12 @@ void setup_geometry(const pugi::xml_node input_geometry,
 		if(!cell_material)
 			error("Material \""+material_string+"\" is not defined.");
 
+		// Cell index in cells
+		const ull index = cells.size();
+
 		// Create object
-		the_cell = std::make_shared<Cell>(name,ID,cell_surfaces,cell_material);
+		the_cell = std::make_shared<Cell>(name,ID,cell_surfaces,cell_material,
+				                              index);
 
 		// Push to system
 		cells.push_back(the_cell);

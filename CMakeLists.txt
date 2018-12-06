@@ -14,6 +14,13 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 option(debug    "Compile with debug flags"                OFF)
 option(optimize "Turn on all compiler optimization flags" OFF)
 
+#===============================================================================
+# MPI for distributed-memory parallelism
+#===============================================================================
+
+find_package(MPI REQUIRED)
+include_directories(${MPI_INCLUDE_PATH})
+
 #==============================================================================
 # Set compile flags
 #==============================================================================
@@ -64,3 +71,4 @@ set(program "MC.exe")
 add_executable(${program} src/main.cpp)
 
 target_link_libraries(${program} libMC pugixml)
+target_link_libraries(${program} ${MPI_LIBRARIES})

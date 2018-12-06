@@ -57,11 +57,12 @@ struct Cell
   const ull                                                  ID;
   const std::vector<std::pair<std::shared_ptr<Surface>,int>> surfaces;
   const std::shared_ptr<Material>                            material;
+  const ull                                                  index;
 
   Cell(const std::string n, const ull i, 
        const std::vector<std::pair<std::shared_ptr<Surface>,int>> s, 
-       const std::shared_ptr<Material> m): 
-		name(n), ID(i), surfaces(s), material(m) {};
+       const std::shared_ptr<Material> m, const ull idx): 
+		name(n), ID(i), surfaces(s), material(m), index(idx) {};
 };
 
 // Test if a point is inside a cell

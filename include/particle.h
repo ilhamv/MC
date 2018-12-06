@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "type.h"
 
 struct Cell; // geometry.h
 
@@ -25,6 +26,18 @@ struct Particle
   Particle(const Point& p1, const Point& p2, const double E, 
            const std::shared_ptr<Cell> c): 
 		alive(true), pos(p1), dir(p2), energy(E), cell(c) {};
+};
+
+
+struct Site
+{
+  Point  pos;        // cm
+  Point  dir;
+  double energy;     // eV
+	ull    cell_index; // cell index in cells
+
+  Site(const Point& p1, const Point& p2, const double E, const ull ci): 
+		pos(p1), dir(p2), energy(E), cell_index(ci) {};
 };
 
 

@@ -4,6 +4,7 @@
 #include "random.h"
 #include "constant.h"
 #include "algorithm.h"
+#include "geometry.h"
 
 //=============================================================================
 // Scattering Reaction
@@ -116,7 +117,7 @@ void sample_reaction_scattering(Particle& P, const std::shared_ptr<Nuclide> N)
 //=============================================================================
 void sample_reaction_fission(Particle& P, const double nu_bar,
 		                         const std::shared_ptr<Nuclide> N, 
-		                         std::vector<Particle>& fission_bank)
+		                         std::vector<Site>& fission_bank)
 {
 	// Absorb/kill particle
 	P.alive = false;
@@ -136,7 +137,7 @@ void sample_reaction_fission(Particle& P, const double nu_bar,
 		Point dir(mu, std::cos(azi) * c, std::sin(azi) * c);
 
 		// Push fission neutron to fission bank
-		Particle P_fission(P.pos, dir, E, P.cell);
+		Site P_fission(P.pos, dir, E, P.cell->index);
 		fission_bank.push_back(P_fission);
 	}
 }
